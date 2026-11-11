@@ -10,7 +10,7 @@ Portal web independiente para conductores. Consulta servicios asignados, actuali
 5. Sirve por HTTPS. El GPS del navegador requiere contexto seguro.
 6. Crea las cuentas desde Admin Trip. No compartas cuentas entre conductores.
 
-## Funciones
+## Aplicación instalable\nIncluye manifiesto PWA y service worker para instalar el panel desde un navegador compatible y conservar la interfaz básica en caché. Las operaciones y el GPS siguen requiriendo conexión con la API; no se guardan datos sensibles de servicios para uso offline.\n\n## Funciones
 - Inicio y cierre de sesión individual.
 - Consulta únicamente los servicios asignados al conductor autenticado.
 - Actualización de estado y ETA.
