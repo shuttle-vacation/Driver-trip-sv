@@ -21,3 +21,15 @@ Las credenciales de sesión se mantienen en `sessionStorage` y se revocan al cer
 
 ## Controles operativos
 El selector de estado muestra únicamente el estado actual y las transiciones permitidas por la API. La API vuelve a validar cada cambio; la interfaz no sustituye la autorización del servidor.
+
+
+## Hostinger PHP/HTML deployment
+This is a static browser application (HTML, CSS and JavaScript); it does not require Node.js or a PHP runtime process.
+1. Create the subdomain in Hostinger hPanel and assign its document root.
+2. Deploy this repository's contents to that document root using **Sitio web PHP/HTML**.
+3. Keep `assets/config.js` pointed at `https://api.shuttlevacation.com`.
+4. Enable SSL/HTTPS for the subdomain. Driver Trip requires HTTPS for browser GPS.
+5. Verify the home page, static assets and API connectivity after the API is configured.
+6. Do not place admin API tokens or driver credentials in repository files. Admin token is entered at login; driver accounts are created from Admin Trip.
+
+The application polls the central API every 15 seconds; no Node.js process or WebSocket service is required.
