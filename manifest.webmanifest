@@ -1,0 +1,13 @@
+{
+  "id": "./",
+  "name": "Shuttle Vacation Driver Trip",
+  "short_name": "Driver Trip",
+  "description": "Centro de control operativo de Shuttle Vacation",
+  "lang": "es-MX",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f8f5ef",
+  "theme_color": "#252525",
+  "icons": [{"src":"./assets/icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}
