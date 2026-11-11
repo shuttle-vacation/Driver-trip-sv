@@ -18,3 +18,6 @@ Portal web independiente para conductores. Consulta servicios asignados, actuali
 - Actualización de lista mediante WebSocket sin transmitir información del viaje.
 
 Las credenciales de sesión se mantienen en `sessionStorage` y se revocan al cerrar sesión.
+
+## Controles operativos
+El selector de estado muestra únicamente el estado actual y las transiciones permitidas por la API. La API vuelve a validar cada cambio; la interfaz no sustituye la autorización del servidor.
