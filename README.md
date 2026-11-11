@@ -6,7 +6,7 @@ Portal web independiente para conductores. Consulta servicios asignados, actuali
 1. Publica este repositorio como sitio estático.
 2. Asigna `drivertrip.shuttlevacation.com`.
 3. En `assets/config.js`, configura `API_BASE_URL` con `https://api.shuttlevacation.com`.
-4. Añade `https://drivertrip.shuttlevacation.com` a `CORS_ORIGINS` y `WS_ALLOWED_ORIGINS` de la API.
+4. Añade `https://drivertrip.shuttlevacation.com` a `CORS_ORIGINS` de la API.
 5. Sirve por HTTPS. El GPS del navegador requiere contexto seguro.
 6. Crea las cuentas desde Admin Trip. No compartas cuentas entre conductores.
 
@@ -15,7 +15,7 @@ Portal web independiente para conductores. Consulta servicios asignados, actuali
 - Consulta únicamente los servicios asignados al conductor autenticado.
 - Actualización de estado y ETA.
 - Compartir ubicación mientras el servicio está en una fase operativa.
-- Actualización de lista mediante WebSocket sin transmitir información del viaje.
+- Actualización automática de servicios cada 15 segundos mediante HTTPS; no requiere WebSockets.
 
 Las credenciales de sesión se mantienen en `sessionStorage` y se revocan al cerrar sesión.
 
