@@ -11,15 +11,17 @@ settings:
     GENERATE_INFOPLIST_FILE: YES
     INFOPLIST_KEY_CFBundleDisplayName: DriverTrip
     INFOPLIST_KEY_NSLocationWhenInUseUsageDescription: "DriverTrip usa tu ubicación para compartir el avance de los servicios que operaciones te ha asignado."
-    INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription: "DriverTrip puede compartir tu ubicación durante un servicio asignado, incluso cuando la app está en segundo plano, si autorizas esta función."
-    INFOPLIST_KEY_UIBackgroundModes:
-      - location
+    INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription: "DriverTrip comparte tu ubicación durante la ventana de seguimiento de un servicio asignado, incluso en segundo plano, si autorizas esta función."
 targets:
   DriverTrip:
     type: application
     platform: iOS
     sources:
       - path: DriverTrip
+    info:
+      properties:
+        UIBackgroundModes:
+          - location
     settings:
       base:
         PRODUCT_NAME: DriverTrip
