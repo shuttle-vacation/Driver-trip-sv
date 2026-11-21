@@ -50,7 +50,7 @@ final class DriverTripViewModel: ObservableObject {
             if trips.isEmpty { show("No tienes servicios activos asignados.") }
             else { show("Servicios actualizados.") }
         } catch {
-            if error is DriverTripAPIError.unauthorized { signOutLocally() }
+            if let apiError = error as? DriverTripAPIError, case .unauthorized = apiError { signOutLocally() }
             show(error.localizedDescription, error: true)
         }
     }
