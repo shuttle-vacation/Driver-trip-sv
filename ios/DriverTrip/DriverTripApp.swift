@@ -58,7 +58,7 @@ private struct LoginView: View {
                 }
                 if let message = model.message {
                     Text(message).font(.footnote)
-                        .foregroundStyle(model.isError ? .red : .secondary)
+                        .foregroundColor(model.isError ? .red : .secondary)
                 }
                 Spacer()
                 Text("Calidad · Comfort · Excelencia").font(.footnote).foregroundStyle(.secondary)
@@ -76,7 +76,7 @@ private struct DriverHomeView: View {
                 Section("Ubicación GPS") {
                     Label(model.gpsMessage, systemImage: model.gpsIsActive ? "location.fill" : "location")
                         .font(.footnote)
-                        .foregroundStyle(model.gpsIsActive ? .green : .secondary)
+                        .foregroundColor(model.gpsIsActive ? .green : .secondary)
                     Text("El seguimiento se habilita desde siete horas antes de cada servicio asignado. No necesitas elegir un traslado.")
                         .font(.caption)
                         .foregroundStyle(.secondary)
