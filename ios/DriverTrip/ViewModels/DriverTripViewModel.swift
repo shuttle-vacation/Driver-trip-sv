@@ -19,8 +19,16 @@ final class DriverTripViewModel: ObservableObject {
 
  init() {
   locationManager.onLocationUpdate = { [weak self] location in
-   guard let self, self.isAuthenticated, self.hasEligibleTrip else { return }
-   Task { await self.sendLocation(location) }
+   guard let self, self.isAuthenticated else { return }
+   Task {
+    if self.hasEligibleTrip {
+     await self.sendLocation(location)
+    } else {
+     // A significant-location event can wake iOS near the start of a scheduled GPS window.
+     await self.refreshTrips()
+     if self.hasEligibleTrip { await self.sendLocation(location) }
+    }
+   }
   }
   locationManager.onAuthorizationChange = { [weak self] in self?.configureLocationTracking() }
   if let saved = DriverSessionStore.read() {
