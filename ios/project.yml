@@ -1,0 +1,26 @@
+name: DriverTrip
+options:
+  bundleIdPrefix: com.shuttlevacation
+  deploymentTarget:
+    iOS: "17.0"
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    PRODUCT_BUNDLE_IDENTIFIER: com.shuttlevacation.drivertrip
+    TARGETED_DEVICE_FAMILY: "1,2"
+    GENERATE_INFOPLIST_FILE: YES
+    INFOPLIST_KEY_CFBundleDisplayName: DriverTrip
+    INFOPLIST_KEY_NSLocationWhenInUseUsageDescription: "DriverTrip usa tu ubicación para compartir el avance de los servicios que operaciones te ha asignado."
+    INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription: "DriverTrip puede compartir tu ubicación durante un servicio asignado, incluso cuando la app está en segundo plano, si autorizas esta función."
+    INFOPLIST_KEY_UIBackgroundModes:
+      - location
+targets:
+  DriverTrip:
+    type: application
+    platform: iOS
+    sources:
+      - path: DriverTrip
+    settings:
+      base:
+        PRODUCT_NAME: DriverTrip
+        SWIFT_EMIT_LOC_STRINGS: YES
