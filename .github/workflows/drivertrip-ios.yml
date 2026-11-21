@@ -1,0 +1,38 @@
+name: DriverTrip iOS Build
+on:
+  push:
+    branches:
+      - apple-native-foundation
+    paths:
+      - "ios/**"
+      - ".github/workflows/drivertrip-ios.yml"
+  pull_request:
+    branches:
+      - main
+      - apple-native-foundation
+    paths:
+      - "ios/**"
+      - ".github/workflows/drivertrip-ios.yml"
+  workflow_dispatch:
+
+jobs:
+  ios-simulator-build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install XcodeGen
+        run: brew install xcodegen
+      - name: Generate Xcode project
+        working-directory: ios
+        run: xcodegen generate
+      - name: Build for iOS Simulator
+        working-directory: ios
+        run: |
+          xcodebuild \
+            -project DriverTrip.xcodeproj \
+            -scheme DriverTrip \
+            -sdk iphonesimulator \
+            -configuration Debug \
+            CODE_SIGNING_ALLOWED=NO \
+            build
