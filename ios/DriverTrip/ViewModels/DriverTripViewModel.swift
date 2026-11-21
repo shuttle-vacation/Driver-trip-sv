@@ -56,7 +56,7 @@ final class DriverTripViewModel: ObservableObject {
   guard isAuthenticated else { locationManager.stopAllTracking(); return }
   let eligible = hasEligibleTrip
   locationManager.monitorAssignedTrips(windowOpen: eligible, hasTrips: !trips.isEmpty)
-  gpsIsActive = eligible && locationManager.authorizationStatus == .authorizedAlways
+  gpsIsActive = eligible && locationManager.isActivelyTracking
   if trips.isEmpty { gpsMessage = "No hay servicios asignados. El GPS está detenido." }
   else if eligible {
    gpsMessage = gpsIsActive ? "GPS automático activo. Se comparte con todos tus servicios dentro de la ventana autorizada." : (locationManager.lastError ?? "Servicio dentro de la ventana GPS. Autoriza Ubicación: Siempre.")
