@@ -1,43 +1,53 @@
-# DriverTrip — Apple native foundation
+# DriverTrip — native iOS foundation
 
-This folder starts the native iOS implementation without changing the existing web/PWA driver portal.
+This native iOS app is developed separately from the existing web/PWA driver portal. The web portal and production API are not changed by this branch.
 
-## Current status
+## Implemented in this branch
 
-- SwiftUI app entry point and initial sign-in / home screens: scaffold only.
-- Driver trip model: scaffold only; API decoding must be verified against backend payloads.
-- Core Location manager: permission and location lifecycle foundation only.
-- Authentication, trip loading, status updates, location uploads, push notifications, Apple Watch companion and App Store archive are not implemented yet.
+- SwiftUI sign-in screen connected to `POST /api/driver/login`.
+- Driver session token stored in iOS Keychain (not UserDefaults).
+- Assigned service list from `GET /api/driver/trips`.
+- Status updates through `PATCH /api/trips/{id}/status`, with the same server-approved transitions as the PHP API.
+- Optional ETA sent with status changes.
+- Refresh, pull-to-refresh, logout and expired-session handling.
+- XcodeGen project specification at `ios/project.yml`.
 
-## Integration contract
+## Verified API contract
 
-- Central API: https://api.shuttlevacation.com
-- Existing web driver portal remains in place.
-- Do not store API secrets in the app.
-- Use HTTPS, revocable driver sessions, server-side authorization and minimal location retention.
-- Do not upload coordinates until the authenticated driver has an eligible assigned service and the server confirms the tracking window.
-- The server remains authoritative for the seven-hour pre-service GPS window and trip status transitions.
+Production source of truth: `auren-digital/Trip-Tracking_SV/api/index.php`.
 
-## Core Location requirements before background GPS
+- Login returns `access_token`, `token_type`, `expires_at`.
+- Driver trips return an array with `id`, `folio`, `flight_number`, `passenger_name`, `destination`, `pickup`, `scheduled_at`, `passengers`, `status`, and `eta_minutes`.
+- Status update: `PATCH /api/trips/{id}/status` with `status` and optional `eta_minutes`.
+- Location update: `PATCH /api/trips/{id}/location` with `latitude` and `longitude`; server accepts it only for operational GPS states.
+- Logout: `POST /api/driver/logout`.
 
-1. Add the appropriate location usage descriptions to the app Info.plist.
-2. Explain the operational purpose before asking for authorization.
-3. Request the least privilege that supports the approved workflow; request Always only when background tracking is genuinely required.
-4. Enable the Location updates Background Mode only after reviewing Apple's current requirements and App Store privacy disclosures.
-5. Test permission changes, app termination, reboot, loss of connectivity, battery impact and trip completion on physical iPhones.
-6. Stop updates immediately when no eligible trip remains or the trip is completed/cancelled.
+No API secrets are embedded in the app.
 
-The code deliberately does not request permission on launch or transmit location by itself.
+## Important GPS limitation found during integration
 
-## Build environment
+The current PHP API only accepts per-trip GPS updates in the operational states `driver_on_way`, `driver_arrived`, `passenger_onboard`, `in_transit`, and `incident`. Although it has a seven-hour GPS-window helper for public tracking, the driver location endpoint does not currently permit uploading coordinates while a trip is merely `confirmed` or `assigned`.
 
-A native iOS app requires Xcode on macOS to create, sign, archive and run device builds. This repository currently contains source files, not a signed IPA or a complete Xcode project.
+Therefore this iOS client must not claim or attempt seven-hour pre-service background tracking until the server contract is deliberately extended and tested. The existing browser portal's legacy `POST /api/driver/location` call also does not match the current PHP API route; the PHP endpoint is per-trip `PATCH /api/trips/{id}/location`. This mismatch should be corrected in a separate, reviewed web-portal change, not silently in this native branch.
 
-## Next implementation steps
+## Background location still pending
 
-1. Verify the driver login, assigned trips, status update and location upload API contracts.
-2. Implement a secure API client and Keychain-backed session storage.
-3. Connect the trip list and permitted status transitions.
-4. Add server-authorized scheduled background location tracking.
-5. Add push notifications and test on physical devices.
-6. Create the Xcode project, signing configuration and App Store Connect metadata.
+The Core Location manager is currently a foundation only. It is not yet connected to API uploads. Before enabling background tracking:
+
+1. Confirm the approved operational GPS policy and driver notice/consent.
+2. Extend and test the API for the intended pre-service window, if required.
+3. Wire Core Location to the active assigned trip(s), uploading only to authorized endpoints.
+4. Request Always permission only when needed and explain why.
+5. Test on physical iPhones for app suspension, termination, reboot, offline recovery, permission changes and battery impact.
+
+## Build
+
+This repository contains source and an XcodeGen specification, not a signed IPA. On macOS with Xcode and XcodeGen installed:
+
+```sh
+cd ios
+xcodegen generate
+open DriverTrip.xcodeproj
+```
+
+Then configure the Apple Developer Team and signing settings in Xcode. A macOS/Xcode build environment is required for device signing, archiving and App Store submission.
