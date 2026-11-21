@@ -1,0 +1,8 @@
+Options -Indexes
+RewriteEngine On
+# Prevent access to repository metadata and local environment files.
+RewriteRule (^|/)\.git(/|$) - [F,L]
+RewriteRule (^|/)\.env([./]|$) - [F,L,NC]
+<FilesMatch "^(\.gitignore|\.gitattributes|\.env.*|README\.md)$">
+  Require all denied
+</FilesMatch>
