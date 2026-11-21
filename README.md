@@ -10,17 +10,21 @@ Portal web independiente para conductores. Consulta servicios asignados, actuali
 5. Sirve por HTTPS. El GPS del navegador requiere contexto seguro.
 6. Crea las cuentas desde Admin Trip. No compartas cuentas entre conductores.
 
-## Aplicación instalable\nIncluye manifiesto PWA y service worker para instalar el panel desde un navegador compatible y conservar la interfaz básica en caché. Las operaciones y el GPS siguen requiriendo conexión con la API; no se guardan datos sensibles de servicios para uso offline.\n\n## Funciones
+## Aplicación instalable
+Incluye manifiesto PWA y service worker para instalar el panel desde un navegador compatible y conservar la interfaz básica en caché. Las operaciones y el GPS siguen requiriendo conexión con la API; no se guardan datos sensibles de servicios para uso offline.
+
+## Funciones
 - Inicio y cierre de sesión individual.
 - Consulta únicamente los servicios asignados al conductor autenticado.
 - Actualización de estado y ETA.
-- Compartir ubicación mientras el servicio está en una fase operativa.
+- Compartir ubicación automáticamente para todos los servicios asignados al conductor cuando entren en la ventana de siete horas previa o estén en curso; no requiere seleccionar un servicio.
+- La ubicación web depende de que Driver Trip permanezca abierto y el navegador permita geolocalización. Los navegadores pueden suspender el GPS cuando la pestaña queda en segundo plano, el dispositivo se bloquea o el sistema ahorra batería; la web/PWA no garantiza rastreo continuo con la pantalla apagada.
 - Actualización automática de servicios cada 15 segundos mediante HTTPS; no requiere WebSockets.
 
 Las credenciales de sesión se mantienen en `sessionStorage` y se revocan al cerrar sesión.
 
 ## Controles operativos
-El selector de estado muestra únicamente el estado actual y las transiciones permitidas por la API. La API vuelve a validar cada cambio; la interfaz no sustituye la autorización del servidor.
+El selector de estado muestra únicamente el estado actual y las transiciones permitidas por la API. La API vuelve a validar cada cambio; la interfaz no sustituye la autorización del servidor. El GPS se solicita tras iniciar sesión cuando exista al menos un servicio dentro de la ventana de seguimiento.
 
 
 ## Hostinger PHP/HTML deployment
