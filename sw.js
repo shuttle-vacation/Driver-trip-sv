@@ -1,4 +1,4 @@
-const CACHE="sv-driver-trip-v1";
+const CACHE="sv-driver-trip-v2";
 const STATIC=["./","./index.html","./assets/styles.css","./assets/config.js","./assets/app.js","./assets/icon.svg","./manifest.webmanifest"];
 self.addEventListener("install",event=>event.waitUntil(caches.open(CACHE).then(c=>c.addAll(STATIC)).then(()=>self.skipWaiting())));
 self.addEventListener("activate",event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
