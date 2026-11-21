@@ -64,7 +64,7 @@ struct DriverTripAPI: Sendable {
     private func request<Response: Decodable, Body: Encodable>(
         _ path: String, method: String, body: Body?, token: String?
     ) async throws -> Response {
-        var request = URLRequest(url: baseURL.appendingPathComponent(path.dropFirst()))
+        var request = URLRequest(url: baseURL.appendingPathComponent(String(path.dropFirst())))
         request.httpMethod = method
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("application/json", forHTTPHeaderField: "Accept")
