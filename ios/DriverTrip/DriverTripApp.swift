@@ -73,6 +73,14 @@ private struct DriverHomeView: View {
     var body: some View {
         NavigationStack {
             List {
+                Section("Ubicación GPS") {
+                    Label(model.gpsMessage, systemImage: model.gpsIsActive ? "location.fill" : "location")
+                        .font(.footnote)
+                        .foregroundStyle(model.gpsIsActive ? .green : .secondary)
+                    Text("El seguimiento se habilita desde siete horas antes de cada servicio asignado. No necesitas elegir un traslado.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
                 Section {
                     HStack {
                         VStack(alignment: .leading, spacing: 4) {
@@ -111,6 +119,12 @@ private struct DriverHomeView: View {
             }
             .navigationTitle("Driver Trip")
             .refreshable { await model.refreshTrips() }
+            .task {
+                while !Task.isCancelled {
+                    try? await Task.sleep(for: .seconds(30))
+                    if !Task.isCancelled && model.isAuthenticated { await model.refreshTrips() }
+                }
+            }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     if model.isLoading { ProgressView() }
