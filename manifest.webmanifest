@@ -2,7 +2,7 @@
   "id": "./",
   "name": "Shuttle Vacation Driver Trip",
   "short_name": "Driver Trip",
-  "description": "Centro de control operativo de Shuttle Vacation",
+  "description": "Portal de conductores y seguimiento GPS de Shuttle Vacation",
   "lang": "es-MX",
   "start_url": "./",
   "scope": "./",
